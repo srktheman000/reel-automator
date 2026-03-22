@@ -10,7 +10,7 @@ interface TemplatePickerProps {
 
 export function TemplatePicker({ selected, onSelect }: TemplatePickerProps) {
   return (
-    <div className="grid grid-cols-1 gap-3">
+    <div role="radiogroup" aria-label="Reel templates" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
       {TEMPLATES.map(template => (
         <TemplateCard
           key={template.id}

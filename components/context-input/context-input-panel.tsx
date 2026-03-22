@@ -84,16 +84,29 @@ export function ContextInputPanel({ sessionId, onContextCreated }: ContextInputP
 
         <TabsContent value="text" className="mt-3 space-y-3">
           <Textarea
-            placeholder="Paste your script, notes, article, or any content you want to turn into a reel..."
+            placeholder="Paste your script, article, notes, or any content you want to turn into a reel…"
             value={text}
-            onChange={e => setText(e.target.value)}
+            onChange={e => setText(e.target.value.slice(0, 2000))}
             rows={8}
-            className="resize-none text-sm"
+            autoFocus
+            className="resize-none text-sm leading-relaxed"
           />
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">{text.length.toLocaleString()} chars</span>
-            <Button onClick={handleTextSubmit} disabled={!text.trim() || loading} size="sm">
-              {loading ? 'Saving...' : 'Use this context'}
+          <div className="flex items-center justify-between gap-3">
+            <span className={cn(
+              'text-xs tabular-nums transition-colors',
+              text.length >= 1800 ? 'text-orange-500' : 'text-muted-foreground'
+            )}>
+              {text.length.toLocaleString()} / 2,000
+            </span>
+            <Button onClick={handleTextSubmit} disabled={!text.trim() || loading} size="sm" className="gap-1.5">
+              {loading ? (
+                <>
+                  <div className="w-3 h-3 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground animate-spin" />
+                  Saving…
+                </>
+              ) : (
+                'Continue →'
+              )}
             </Button>
           </div>
         </TabsContent>
@@ -132,15 +145,24 @@ export function ContextInputPanel({ sessionId, onContextCreated }: ContextInputP
 
           {file && (
             <div className="flex justify-end">
-              <Button onClick={handlePDFSubmit} disabled={loading} size="sm">
-                {loading ? 'Extracting text...' : 'Parse & use PDF'}
+              <Button onClick={handlePDFSubmit} disabled={loading} size="sm" className="gap-1.5">
+                {loading ? (
+                  <>
+                    <div className="w-3 h-3 rounded-full border-2 border-primary-foreground/30 border-t-primary-foreground animate-spin" />
+                    Extracting…
+                  </>
+                ) : 'Continue →'}
               </Button>
             </div>
           )}
         </TabsContent>
       </Tabs>
 
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && (
+        <p className="text-xs text-destructive bg-destructive/10 rounded-lg px-3 py-2 border border-destructive/20">
+          {error}
+        </p>
+      )}
     </div>
   )
 }

@@ -1,37 +1,56 @@
-import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import { getReelWithScenes } from '@/lib/supabase/queries/reels'
-import { getSignedUrls } from '@/lib/reels/storage-helpers'
+import { DUMMY_REELS, DUMMY_SCENES } from '@/lib/dummy-data'
 import { ReelEditorPage } from '@/components/reel-editor/reel-editor-page'
 
 interface Props {
   params: Promise<{ id: string }>
 }
 
-export default async function ReelPage({ params }: Props) {
-  const { id } = await params
-  const supabase = await createClient()
+// Build a full dummy reel that matches the ReelEditorPage prop types
+function buildDummyReel(id: string) {
+  const found = DUMMY_REELS.find(r => r.id === id)
 
-  let reel
-  try {
-    reel = await getReelWithScenes(supabase, id)
-  } catch {
-    notFound()
+  const base = found ?? {
+    id,
+    title: 'My New Reel',
+    template: 'educational',
+    status: 'pending',
+    duration_sec: 0,
+    session_id: 'session-dummy',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    thumbnail_color: 'from-gray-600 to-gray-900',
   }
 
-  const imagePaths = reel.scenes.map(s => s.image_url).filter(Boolean) as string[]
-  const audioPaths = reel.scenes.map(s => s.audio_url).filter(Boolean) as string[]
+  const scenes = base.id === 'reel-001' ? DUMMY_SCENES.map(s => ({
+    ...s,
+    created_at: new Date().toISOString(),
+    image_prompt: null as string | null,
+    image_generation_id: null as string | null,
+    audio_generation_id: null as string | null,
+    tts_voice: null as string | null,
+  })) : []
 
-  const [signedImageUrls, signedAudioUrls] = await Promise.all([
-    imagePaths.length > 0 ? getSignedUrls(supabase, imagePaths).catch(() => ({})) : Promise.resolve({}),
-    audioPaths.length > 0 ? getSignedUrls(supabase, audioPaths).catch(() => ({})) : Promise.resolve({}),
-  ])
+  // Cast to unknown first to bridge dummy → DB type gap
+  return {
+    ...base,
+    context_id: null as string | null,
+    job_id: null as string | null,
+    error_message: null as string | null,
+    total_scenes: scenes.length,
+    metadata: {} as Record<string, unknown>,
+    scenes,
+  } as unknown as Parameters<typeof ReelEditorPage>[0]['initialReel']
+}
+
+export default async function ReelPage({ params }: Props) {
+  const { id } = await params
+  const reel = buildDummyReel(id)
 
   return (
     <ReelEditorPage
       initialReel={reel}
-      signedImageUrls={signedImageUrls}
-      signedAudioUrls={signedAudioUrls}
+      signedImageUrls={{}}
+      signedAudioUrls={{}}
     />
   )
 }

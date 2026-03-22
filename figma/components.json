@@ -1,0 +1,434 @@
+{
+  "_info": {
+    "description": "Component anatomy spec for AI Reel Creator — use alongside tokens.json. Each entry maps to a Figma component set (with variants).",
+    "howToUse": "In Figma: create a Frame for each component, configure Auto Layout as specified, apply tokens from tokens.json. Name properties match Figma's variant naming convention (Property=Value)."
+  },
+
+  "Button": {
+    "figmaComponent": "Button",
+    "variantProperties": {
+      "Variant": ["default", "secondary", "outline", "ghost", "destructive", "link"],
+      "Size": ["xs", "sm", "md", "lg", "icon"],
+      "State": ["default", "hover", "focus", "disabled", "loading"]
+    },
+    "anatomy": ["leading-icon (optional)", "label", "trailing-icon (optional)"],
+    "autoLayout": {
+      "direction": "horizontal",
+      "alignment": "center",
+      "gap": "See components.button.gap-{size}",
+      "paddingH": "See components.button.padding-x-{size}",
+      "paddingV": "auto (centered by height)"
+    },
+    "sizing": {
+      "xs":   { "height": 28, "paddingX": 10, "fontSize": 12, "iconSize": 12, "gap": 4 },
+      "sm":   { "height": 32, "paddingX": 12, "fontSize": 13, "iconSize": 14, "gap": 6 },
+      "md":   { "height": 36, "paddingX": 16, "fontSize": 14, "iconSize": 16, "gap": 8 },
+      "lg":   { "height": 44, "paddingX": 24, "fontSize": 16, "iconSize": 20, "gap": 8 },
+      "icon": { "height": 36, "width": 36, "padding": 8, "iconSize": 16 }
+    },
+    "variants": {
+      "default":     { "bg": "primary",     "text": "primary-foreground", "border": "none",   "hover": "opacity 90%" },
+      "secondary":   { "bg": "secondary",   "text": "secondary-foreground","border": "none",   "hover": "bg secondary/80" },
+      "outline":     { "bg": "transparent", "text": "foreground",          "border": "border", "hover": "bg accent" },
+      "ghost":       { "bg": "transparent", "text": "foreground",          "border": "none",   "hover": "bg accent" },
+      "destructive": { "bg": "destructive", "text": "white",               "border": "none",   "hover": "opacity 90%" },
+      "link":        { "bg": "transparent", "text": "primary",             "border": "none",   "hover": "underline" }
+    },
+    "focusRing": { "width": 2, "color": "ring", "offset": 2 },
+    "disabled":  { "opacity": 0.5, "cursor": "not-allowed", "pointerEvents": "none" },
+    "borderRadius": 10,
+    "notes": "Loading state: replace label with Loader2 icon (16px, spin) + 'Loading...' text. Keep button width stable with min-width."
+  },
+
+  "Input": {
+    "figmaComponent": "Input",
+    "variantProperties": {
+      "State": ["default", "focus", "error", "disabled"],
+      "HasLeadingIcon": ["true", "false"]
+    },
+    "autoLayout": {
+      "direction": "horizontal",
+      "alignment": "center",
+      "paddingH": 12,
+      "paddingV": 4
+    },
+    "sizing": { "height": 36, "fontSize": 14 },
+    "colors": {
+      "bg":          "background",
+      "border":      "input",
+      "text":        "foreground",
+      "placeholder": "muted-foreground",
+      "focusBorder": "ring",
+      "errorBorder": "destructive"
+    },
+    "borderRadius": 8,
+    "borderWidth": 1,
+    "notes": "Label: text-sm font-semibold, 6px below. Helper/error text: text-xs, 4px below input."
+  },
+
+  "Textarea": {
+    "extends": "Input",
+    "changes": {
+      "minHeight": 96,
+      "resize": "vertical",
+      "autoGrow": true,
+      "fieldSizing": "content"
+    },
+    "characterCounter": { "align": "right", "fontSize": 12, "color": "muted-foreground", "marginTop": 4 }
+  },
+
+  "Card": {
+    "figmaComponent": "Card",
+    "variantProperties": {
+      "Variant": ["default", "interactive", "highlighted", "ghost"]
+    },
+    "autoLayout": {
+      "direction": "vertical",
+      "alignment": "stretch"
+    },
+    "sections": {
+      "CardHeader": { "paddingH": 24, "paddingV": 20 },
+      "CardContent": { "paddingH": 24, "paddingV": 16 },
+      "CardFooter":  { "paddingH": 24, "paddingV": 16, "justify": "flex-end" }
+    },
+    "variants": {
+      "default":     { "bg": "card",      "border": "border",   "shadow": "sm" },
+      "interactive": { "bg": "card",      "border": "border",   "shadow": "sm",  "hoverBorder": "primary/40", "cursor": "pointer" },
+      "highlighted": { "bg": "card",      "border": "primary",  "ring": "2px primary" },
+      "ghost":       { "bg": "transparent","border": "none",    "shadow": "none" }
+    },
+    "borderRadius": 14,
+    "borderWidth": 1
+  },
+
+  "Badge": {
+    "figmaComponent": "Badge",
+    "variantProperties": {
+      "Variant": ["default", "secondary", "outline", "destructive", "hook", "context", "value", "cta"]
+    },
+    "autoLayout": {
+      "direction": "horizontal",
+      "alignment": "center",
+      "paddingH": 8,
+      "paddingV": 2,
+      "gap": 4
+    },
+    "sizing": { "fontSize": 12, "fontWeight": 500 },
+    "variants": {
+      "default":     { "bg": "primary",           "text": "primary-foreground" },
+      "secondary":   { "bg": "secondary",          "text": "secondary-foreground" },
+      "outline":     { "bg": "transparent",        "text": "foreground",          "border": "border" },
+      "destructive": { "bg": "destructive/15",     "text": "destructive" },
+      "hook":        { "bg": "scene.hook-bg",      "text": "scene.hook-text" },
+      "context":     { "bg": "scene.context-bg",   "text": "scene.context-text" },
+      "value":       { "bg": "scene.value-bg",     "text": "scene.value-text" },
+      "cta":         { "bg": "scene.cta-bg",       "text": "scene.cta-text" }
+    },
+    "borderRadius": 6
+  },
+
+  "Tabs": {
+    "figmaComponent": "Tabs",
+    "variantProperties": {
+      "Style": ["pill", "underline"],
+      "State": ["active", "inactive", "hover"]
+    },
+    "TabsList": {
+      "pill":      { "bg": "muted", "padding": 4, "borderRadius": 10, "gap": 2 },
+      "underline": { "bg": "transparent", "borderBottom": "1px solid border", "gap": 0 }
+    },
+    "TabsTrigger": {
+      "fontSize": 14, "fontWeight": 500, "paddingH": 12, "paddingV": 6,
+      "active":   { "bg": "background", "text": "foreground", "shadow": "sm" },
+      "inactive": { "bg": "transparent", "text": "muted-foreground" },
+      "hover":    { "text": "foreground" }
+    }
+  },
+
+  "ProgressBar": {
+    "figmaComponent": "ProgressBar",
+    "anatomy": ["track", "fill", "label (optional)"],
+    "track":  { "height": 8, "bg": "primary/20", "borderRadius": 9999 },
+    "fill":   { "height": 8, "bg": "primary",    "borderRadius": 9999, "transition": "width 300ms ease-out" },
+    "label":  { "fontSize": 14, "color": "foreground", "position": "beside-bar" }
+  },
+
+  "ChatMessageBubble": {
+    "figmaComponent": "ChatMessageBubble",
+    "variantProperties": {
+      "Role": ["user", "assistant", "streaming"]
+    },
+    "autoLayout": {
+      "direction": "vertical",
+      "gap": 4
+    },
+    "bubble": {
+      "paddingH": 16, "paddingV": 10,
+      "maxWidth": "80%",
+      "fontSize": 14,
+      "user":      { "bg": "primary",    "text": "primary-foreground", "borderRadius": "18px 18px 4px 18px", "align": "flex-end" },
+      "assistant": { "bg": "muted",      "text": "foreground",         "borderRadius": "18px 18px 18px 4px", "align": "flex-start" },
+      "streaming": { "bg": "muted",      "text": "muted-foreground",   "borderRadius": "18px 18px 18px 4px", "opacity": 0.7 }
+    },
+    "timestamp": {
+      "fontSize": 12, "color": "muted-foreground", "marginTop": 4,
+      "user": "align-right", "assistant": "align-left",
+      "visibility": "hover-only"
+    }
+  },
+
+  "SceneCard": {
+    "figmaComponent": "SceneCard",
+    "variantProperties": {
+      "State": ["default", "hover", "selected"],
+      "AudioStatus": ["none", "generated", "pending", "failed"]
+    },
+    "autoLayout": {
+      "direction": "horizontal",
+      "gap": 12, "padding": 12,
+      "alignment": "flex-start"
+    },
+    "thumbnail": { "width": 64, "height": 64, "borderRadius": 8, "bg": "muted", "objectFit": "cover" },
+    "content": {
+      "direction": "vertical", "gap": 2, "flex": 1,
+      "sceneNumber": { "fontSize": 12, "color": "muted-foreground" },
+      "typeBadge":   "Badge variant={sceneType}",
+      "timeRange":   { "fontSize": 12, "color": "muted-foreground", "align": "ml-auto" },
+      "scriptPreview":{ "fontSize": 12, "color": "muted-foreground", "lineClamp": 2 },
+      "audioStatus": {
+        "fontSize": 12, "gap": 4,
+        "generated": { "color": "#16a34a", "icon": "Volume2", "text": "Audio generated" },
+        "pending":   { "color": "muted-foreground", "icon": "Clock", "text": "Audio pending" },
+        "failed":    { "color": "destructive", "icon": "AlertCircle", "text": "Audio failed" }
+      }
+    },
+    "states": {
+      "default":  { "bg": "transparent", "hover": "accent" },
+      "selected": { "bg": "accent", "ring": "2px primary/30" }
+    },
+    "borderRadius": 10
+  },
+
+  "TemplateCard": {
+    "figmaComponent": "TemplateCard",
+    "variantProperties": {
+      "Template": ["educational", "marketing", "entertainment", "storytelling", "product-demo"],
+      "State": ["default", "hover", "selected"]
+    },
+    "sizing": { "minHeight": 160, "width": "100%" },
+    "autoLayout": { "direction": "vertical", "padding": 20, "gap": 8 },
+    "anatomy": {
+      "emojiIcon":    { "fontSize": 30, "position": "top-left" },
+      "checkIcon":    { "size": 20, "color": "primary", "position": "top-right", "visibility": "selected-only" },
+      "title":        { "fontSize": 16, "fontWeight": 600, "marginTop": 12 },
+      "description":  { "fontSize": 14, "color": "muted-foreground", "marginTop": 4 },
+      "tags":         { "direction": "horizontal", "gap": 6, "marginTop": 12, "component": "Badge variant=secondary" }
+    },
+    "states": {
+      "default":  { "borderWidth": 2, "borderColor": "transparent", "shadow": "none" },
+      "hover":    { "borderWidth": 2, "borderColor": "{template}.border/60", "shadow": "sm" },
+      "selected": { "borderWidth": 2, "borderColor": "{template}.border", "ring": "2px {template}.border/30" }
+    },
+    "borderRadius": 18,
+    "templateColors": {
+      "educational":   { "bg": "template.educational-bg",   "border": "template.educational-border" },
+      "marketing":     { "bg": "template.marketing-bg",     "border": "template.marketing-border" },
+      "entertainment": { "bg": "template.entertainment-bg", "border": "template.entertainment-border" },
+      "storytelling":  { "bg": "template.storytelling-bg",  "border": "template.storytelling-border" },
+      "product-demo":  { "bg": "template.product-bg",       "border": "template.product-border" }
+    }
+  },
+
+  "ContextInputPanel": {
+    "figmaComponent": "ContextInputPanel",
+    "description": "Step 1 of the Reel Wizard — text/PDF context upload",
+    "autoLayout": { "direction": "vertical", "padding": 24, "gap": 20 },
+    "anatomy": {
+      "heading":     { "fontSize": 20, "fontWeight": 600 },
+      "subtext":     { "fontSize": 14, "color": "muted-foreground" },
+      "tabs":        "Tabs style=pill",
+      "textArea":    "Textarea minHeight=96",
+      "charCounter": { "fontSize": 12, "color": "muted-foreground", "align": "right" },
+      "ctaButton":   "Button variant=default size=md fullWidth=true"
+    },
+    "dropZone": {
+      "minHeight": 160, "padding": 24,
+      "borderWidth": 2, "borderStyle": "dashed", "borderColor": "border",
+      "borderRadius": 14,
+      "states": {
+        "default":  { "bg": "transparent",  "border": "border" },
+        "dragOver": { "bg": "primary/5",    "border": "primary" },
+        "loaded":   { "bg": "muted",        "border": "border", "borderStyle": "solid" }
+      },
+      "content": {
+        "icon":        { "component": "FileText", "size": 40, "color": "muted-foreground" },
+        "primaryText": { "fontSize": 14, "fontWeight": 500 },
+        "subText":     { "fontSize": 12, "color": "muted-foreground" },
+        "browseButton":"Button variant=outline size=sm"
+      }
+    }
+  },
+
+  "ChatEditorWidget": {
+    "figmaComponent": "ChatEditorWidget",
+    "variantProperties": {
+      "State": ["collapsed", "expanded"]
+    },
+    "collapsed": {
+      "component": "Button variant=default",
+      "label": "Edit Reel",
+      "icon": "MessageSquare",
+      "position": { "fixed": true, "bottom": 24, "right": 24 },
+      "borderRadius": 9999,
+      "shadow": "lg"
+    },
+    "expanded": {
+      "position": { "fixed": true, "bottom": 80, "right": 24 },
+      "sizing": { "width": 360, "height": 480 },
+      "bg": "card", "border": "border", "shadow": "lg",
+      "borderRadius": 14,
+      "autoLayout": { "direction": "vertical" },
+      "sections": {
+        "header": {
+          "paddingH": 16, "paddingV": 12,
+          "borderBottom": "border",
+          "title": { "fontSize": 14, "fontWeight": 600 },
+          "closeButton": "Button variant=ghost size=icon"
+        },
+        "messages": {
+          "flex": 1, "overflowY": "scroll",
+          "padding": 12, "gap": 8,
+          "component": "ChatMessageBubble"
+        },
+        "suggestionChips": {
+          "display": "flex-wrap", "gap": 8, "paddingH": 12, "paddingV": 8,
+          "borderTop": "border", "visibility": "empty-state-only",
+          "chip": { "fontSize": 12, "border": "border", "borderRadius": 9999, "paddingH": 12, "paddingV": 4 }
+        },
+        "inputRow": {
+          "paddingH": 12, "paddingV": 12,
+          "borderTop": "border", "gap": 8,
+          "input": "Input flex=1",
+          "sendButton": "Button variant=default size=icon"
+        }
+      }
+    },
+    "mobileOverride": {
+      "expanded": { "position": "inset-x-16 bottom-16", "height": "70vh", "width": "auto" },
+      "collapsed": { "bottom": 16, "right": 16 }
+    }
+  },
+
+  "GenerationProgressPanel": {
+    "figmaComponent": "GenerationProgressPanel",
+    "variantProperties": {
+      "State": ["generating", "complete", "error"]
+    },
+    "autoLayout": { "direction": "vertical", "padding": 20, "gap": 12 },
+    "bg": "muted/50", "border": "border", "borderRadius": 14,
+    "sections": {
+      "heading":   { "fontSize": 14, "fontWeight": 600 },
+      "progress":  "ProgressBar",
+      "stepText":  { "fontSize": 12, "color": "muted-foreground" },
+      "sceneGrid": {
+        "display": "grid",
+        "columns": "auto 1fr auto auto",
+        "columnGap": 12, "rowGap": 6,
+        "fontSize": 12,
+        "icons": {
+          "complete": { "icon": "CheckCircle2", "color": "#16a34a" },
+          "pending":  { "icon": "Clock",        "color": "muted-foreground" },
+          "loading":  { "icon": "Loader2",      "color": "muted-foreground", "spin": true }
+        }
+      }
+    },
+    "states": {
+      "generating": { "bg": "muted/50",                 "border": "border" },
+      "complete":   { "bg": "green.50 / green.900/20",  "border": "green.200 / green.800" },
+      "error":      {
+        "bg": "destructive/5",
+        "content": { "icon": "AlertCircle 48px", "heading": "text-destructive", "message": "text-muted-foreground", "retry": "Button variant=outline size=sm" }
+      }
+    }
+  },
+
+  "TopNav": {
+    "figmaComponent": "TopNav",
+    "variantProperties": {
+      "Page": ["wizard", "editor"]
+    },
+    "sizing": { "height": 56, "paddingH": 24 },
+    "bg": "background/80",
+    "backdropBlur": "8px",
+    "borderBottom": "border",
+    "position": "sticky top=0 z=40",
+    "wizard": {
+      "content": "centered logo/brand text only",
+      "logo": { "fontSize": 16, "fontWeight": 600 }
+    },
+    "editor": {
+      "left": [
+        { "component": "Button variant=ghost size=icon", "icon": "ArrowLeft" },
+        { "component": "text", "fontSize": 18, "fontWeight": 600, "maxWidth": 240, "overflow": "truncate" },
+        { "component": "Badge variant=secondary", "fontSize": 12 }
+      ],
+      "separator": { "component": "Separator orientation=vertical", "height": 20, "marginH": 12 },
+      "right": [
+        { "component": "Button variant=default size=sm", "icon": "Sparkles", "label": "Generate" },
+        { "component": "Button variant=outline size=sm", "icon": "Download", "label": "Export" }
+      ]
+    }
+  },
+
+  "WizardStepIndicator": {
+    "figmaComponent": "WizardStepIndicator",
+    "variantProperties": {
+      "TotalSteps": [2, 3],
+      "ActiveStep": [1, 2, 3]
+    },
+    "autoLayout": { "direction": "horizontal", "alignment": "center", "gap": 0 },
+    "stepCircle": {
+      "size": 24, "borderRadius": 9999, "fontSize": 12,
+      "active":   { "bg": "primary",   "text": "primary-foreground", "fontWeight": 600 },
+      "complete": { "bg": "#22c55e",   "text": "#ffffff", "icon": "Check 12px" },
+      "inactive": { "bg": "transparent","text": "muted-foreground", "borderWidth": 2, "border": "border" }
+    },
+    "stepLabel": {
+      "fontSize": 12, "marginTop": 4,
+      "active":   { "color": "foreground",       "fontWeight": 500 },
+      "complete": { "color": "muted-foreground"  },
+      "inactive": { "color": "muted-foreground"  }
+    },
+    "connector": { "height": 1, "bg": "border", "flex": 1, "marginH": 12, "marginBottom": 16 }
+  },
+
+  "EmptyState": {
+    "figmaComponent": "EmptyState",
+    "autoLayout": { "direction": "vertical", "alignment": "center", "paddingV": 48, "paddingH": 24, "gap": 4 },
+    "anatomy": {
+      "icon":     { "size": 40, "color": "muted-foreground/50", "marginBottom": 12 },
+      "heading":  { "fontSize": 14, "fontWeight": 500, "color": "foreground" },
+      "subtext":  { "fontSize": 12, "color": "muted-foreground", "maxWidth": 200, "textAlign": "center" },
+      "ctaButton":{ "component": "Button", "marginTop": 16, "visibility": "optional" }
+    }
+  },
+
+  "Sidebar": {
+    "figmaComponent": "Sidebar",
+    "description": "Future dashboard sidebar",
+    "sizing": { "width": 256 },
+    "bg": "sidebar-background",
+    "borderRight": "sidebar-border",
+    "sections": {
+      "header": { "paddingH": 16, "paddingV": 16, "borderBottom": "sidebar-border" },
+      "nav": { "padding": 8, "gap": 4 },
+      "footer": { "paddingH": 16, "paddingV": 16, "borderTop": "sidebar-border" }
+    },
+    "navItem": {
+      "height": 36, "paddingH": 12, "borderRadius": 8, "gap": 8, "fontSize": 14,
+      "default": { "bg": "transparent", "text": "sidebar-foreground" },
+      "hover":   { "bg": "sidebar-accent/50" },
+      "active":  { "bg": "sidebar-accent", "text": "sidebar-accent-foreground", "fontWeight": 500 }
+    }
+  }
+}

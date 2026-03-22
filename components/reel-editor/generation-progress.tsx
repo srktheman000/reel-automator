@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Progress } from '@/components/ui/progress'
+import { cn } from '@/lib/utils'
 
 interface StatusData {
   reel_status: string
@@ -15,6 +16,13 @@ interface StatusData {
 interface GenerationProgressProps {
   reelId: string
   onComplete: () => void
+}
+
+const STEP_LABELS: Record<string, string> = {
+  pending: 'Preparing your reel…',
+  'generating-blueprint': 'Writing script & planning scenes…',
+  'generating-assets': 'Generating visuals & voiceover…',
+  failed: 'Generation failed',
 }
 
 export function GenerationProgress({ reelId, onComplete }: GenerationProgressProps) {
@@ -45,44 +53,85 @@ export function GenerationProgress({ reelId, onComplete }: GenerationProgressPro
     return () => clearInterval(interval)
   }, [reelId, polling, onComplete])
 
-  if (!status) return null
-  if (status.reel_status === 'ready') return null
+  if (!status || status.reel_status === 'ready') return null
 
   const percent = status.total_steps > 0
     ? Math.round((status.done_steps / status.total_steps) * 100)
-    : 0
+    : status.reel_status === 'generating-blueprint' ? 20 : 5
 
-  const statusLabel: Record<string, string> = {
-    'pending': 'Preparing...',
-    'generating-blueprint': 'Writing reel script & planning scenes...',
-    'generating-assets': `Generating images & audio (${status.done_steps}/${status.total_steps})`,
-    'failed': 'Generation failed',
-  }
+  const isFailed = status.reel_status === 'failed'
 
   return (
-    <div className="w-full space-y-3 p-4 bg-muted/50 rounded-xl border">
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-muted-foreground font-medium">
-          {statusLabel[status.reel_status] ?? 'Processing...'}
-        </span>
-        <span className="font-mono text-xs text-muted-foreground">{percent}%</span>
-      </div>
-      <Progress value={percent} className="h-2" />
-
-      {status.reel_status === 'generating-assets' && status.scenes.length > 0 && (
-        <div className="flex gap-2 flex-wrap mt-2">
-          {status.scenes.map((scene, i) => (
-            <div key={scene.id} className="flex items-center gap-1 text-xs text-muted-foreground">
-              <span>Scene {i + 1}</span>
-              <span>{scene.image_status === 'ready' ? '🖼️' : scene.image_status === 'failed' ? '❌' : '⏳'}</span>
-              <span>{scene.audio_status === 'ready' ? '🔊' : scene.audio_status === 'failed' ? '❌' : '⏳'}</span>
+    <div className={cn(
+      'w-full rounded-2xl border p-5 space-y-4',
+      isFailed ? 'bg-destructive/5 border-destructive/20' : 'bg-card'
+    )}>
+      {/* Header row */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3 min-w-0">
+          {!isFailed && (
+            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+              <div className="w-3.5 h-3.5 rounded-full border-2 border-primary border-t-transparent animate-spin" />
             </div>
-          ))}
+          )}
+          <div className="min-w-0">
+            <p className={cn(
+              'text-sm font-medium leading-snug truncate',
+              isFailed && 'text-destructive'
+            )}>
+              {STEP_LABELS[status.reel_status] ?? 'Processing…'}
+            </p>
+            {status.reel_status === 'generating-assets' && status.total_steps > 0 && (
+              <p className="text-xs text-muted-foreground mt-0.5">
+                {status.done_steps} of {status.total_steps} assets complete
+              </p>
+            )}
+          </div>
+        </div>
+        {!isFailed && (
+          <span className="text-xs font-mono text-muted-foreground tabular-nums shrink-0">
+            {percent}%
+          </span>
+        )}
+      </div>
+
+      {/* Progress bar */}
+      {!isFailed && (
+        <Progress value={percent} className="h-1.5" />
+      )}
+
+      {/* Scene asset status grid */}
+      {status.reel_status === 'generating-assets' && status.scenes.length > 0 && (
+        <div className="grid grid-cols-2 gap-1.5">
+          {status.scenes.map((scene, i) => {
+            const imgDone = scene.image_status === 'ready'
+            const audDone = scene.audio_status === 'ready'
+            const imgFailed = scene.image_status === 'failed'
+            const audFailed = scene.audio_status === 'failed'
+            return (
+              <div
+                key={scene.id}
+                className="flex items-center gap-2 bg-muted/60 rounded-lg px-2.5 py-1.5"
+              >
+                <span className="text-[10px] text-muted-foreground font-mono shrink-0">
+                  Scene {i + 1}
+                </span>
+                <div className="flex items-center gap-1 ml-auto">
+                  <span className={cn('text-[10px]', imgDone ? 'text-green-600' : imgFailed ? 'text-destructive' : 'text-muted-foreground animate-pulse')}>
+                    {imgDone ? '🖼' : imgFailed ? '✕' : '…'}
+                  </span>
+                  <span className={cn('text-[10px]', audDone ? 'text-green-600' : audFailed ? 'text-destructive' : 'text-muted-foreground animate-pulse')}>
+                    {audDone ? '♪' : audFailed ? '✕' : '…'}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
         </div>
       )}
 
       {status.error_message && (
-        <p className="text-xs text-destructive">{status.error_message}</p>
+        <p className="text-xs text-destructive leading-relaxed">{status.error_message}</p>
       )}
     </div>
   )

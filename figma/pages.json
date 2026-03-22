@@ -1,0 +1,567 @@
+{
+  "_info": {
+    "description": "Page layout frames for AI Reel Creator — use this to build Figma pages with exact Auto Layout dimensions. Each top-level key = one Figma Page. Frames within each page = one breakpoint artboard.",
+    "colorReferences": "All color references point to tokens in tokens.json. Apply via Token Studio plugin.",
+    "fonts": "Geist Sans (UI), Geist Mono (code/IDs). Download from https://vercel.com/font",
+    "iconLibrary": "Lucide Icons — import the Lucide Figma community file and link as a library."
+  },
+
+  "pages": [
+
+    {
+      "name": "🎨 Design Tokens",
+      "description": "Token reference page — one frame per token category for quick visual inspection.",
+      "frames": [
+        {
+          "name": "Color / Light Mode",
+          "width": 1440, "height": 800,
+          "columns": 8,
+          "swatches": [
+            "background", "foreground", "primary", "primary-foreground",
+            "secondary", "muted", "muted-foreground", "accent",
+            "destructive", "border", "input", "ring",
+            "scene/hook", "scene/context", "scene/value", "scene/cta"
+          ]
+        },
+        {
+          "name": "Color / Dark Mode",
+          "width": 1440, "height": 800,
+          "bg": "gray.950",
+          "note": "Same layout, dark mode tokens applied"
+        },
+        {
+          "name": "Typography Scale",
+          "width": 1440, "height": 600,
+          "specimens": [
+            { "role": "display",    "sample": "Create Reels That Convert",         "size": 36, "weight": 700 },
+            { "role": "heading-xl", "sample": "Choose Your Template",              "size": 24, "weight": 600 },
+            { "role": "heading-lg", "sample": "Scene 1 — Hook",                    "size": 20, "weight": 600 },
+            { "role": "heading-md", "sample": "Generation Progress",               "size": 16, "weight": 600 },
+            { "role": "body-lg",    "sample": "Your AI-powered reel editor.",       "size": 16, "weight": 400 },
+            { "role": "body-md",    "sample": "Paste your script or article here.","size": 14, "weight": 400 },
+            { "role": "body-sm",    "sample": "0:00 – 0:05 · 2 of 4 scenes",       "size": 13, "weight": 400 },
+            { "role": "caption",    "sample": "EDUCATIONAL · PUBLISHED",            "size": 12, "weight": 400 },
+            { "role": "mono",       "sample": "reel_id: abc-123-def",              "size": 13, "weight": 400, "family": "Geist Mono" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "🧩 Components",
+      "description": "All component variants — each section = one component group.",
+      "sections": [
+        {
+          "name": "Buttons",
+          "showAll": ["Variant × Size × State matrix — 6 variants × 5 sizes = 30 combinations + loading states"]
+        },
+        {
+          "name": "Inputs & Forms",
+          "components": ["Input (default, focus, error, disabled)", "Textarea (default, focus)", "Label + Helper text combos"]
+        },
+        {
+          "name": "Cards",
+          "components": ["Card (default, interactive, highlighted, ghost)", "Card with full anatomy (header + content + footer)"]
+        },
+        {
+          "name": "Badges",
+          "components": ["Badge (default, secondary, outline, destructive, hook, context, value, cta)"]
+        },
+        {
+          "name": "Tabs",
+          "components": ["Tabs pill style (3 tabs, all states)", "Tabs underline style (3 tabs, all states)"]
+        },
+        {
+          "name": "Progress Bar",
+          "components": ["0%", "33%", "67%", "100%", "Indeterminate (animated)"]
+        },
+        {
+          "name": "Chat Message Bubble",
+          "components": ["User bubble", "Assistant bubble", "Streaming / thinking bubble", "Conversation thread (3 turns)"]
+        },
+        {
+          "name": "Scene Card",
+          "components": ["default", "hover", "selected", "all AudioStatus variants"]
+        },
+        {
+          "name": "Template Card",
+          "components": ["All 5 templates × default/hover/selected states", "Template grid (2-col, 3-col)"]
+        },
+        {
+          "name": "Context Input Panel",
+          "components": ["Text tab (empty)", "Text tab (filled + counter)", "PDF tab — drop zone (empty)", "PDF tab — drag over", "PDF tab — file loaded"]
+        },
+        {
+          "name": "Chat Editor Widget",
+          "components": ["Collapsed (button)", "Expanded (empty state with chips)", "Expanded (conversation)", "Mobile expanded (bottom sheet)"]
+        },
+        {
+          "name": "Generation Progress Panel",
+          "components": ["Generating (33%)", "Generating (67%)", "Complete", "Error state"]
+        },
+        {
+          "name": "Top Nav",
+          "components": ["Wizard nav", "Editor nav (desktop)", "Editor nav (mobile — truncated)"]
+        },
+        {
+          "name": "Wizard Step Indicator",
+          "components": ["Step 1 active (2-step)", "Step 2 active (2-step)", "Step 1 complete (2-step)"]
+        },
+        {
+          "name": "Empty States",
+          "components": ["No scenes", "No reels (future dashboard)", "No results (future search)"]
+        },
+        {
+          "name": "State Patterns",
+          "components": [
+            "Skeleton (text lines)", "Skeleton (thumbnail)", "Skeleton (card)",
+            "Inline error", "Toast error (future)", "Page-level error",
+            "Success inline confirmation", "Success generation complete"
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "📱 Reel Wizard — Mobile",
+      "artboards": [
+        {
+          "name": "Step 1 — Add Context (375×812)",
+          "width": 375, "height": 812,
+          "bg": "background",
+          "layout": {
+            "topNav": {
+              "height": 56,
+              "content": "centered logo",
+              "borderBottom": true
+            },
+            "body": {
+              "padding": 16,
+              "gap": 20,
+              "children": [
+                {
+                  "component": "WizardStepIndicator",
+                  "props": { "totalSteps": 2, "activeStep": 1, "compact": true, "labelsHidden": true }
+                },
+                {
+                  "component": "text",
+                  "text": "Add Your Content",
+                  "role": "heading-xl",
+                  "note": "28px on mobile"
+                },
+                {
+                  "component": "text",
+                  "text": "Paste your script, notes, or article — the AI will build your reel from this.",
+                  "role": "body-md",
+                  "color": "muted-foreground"
+                },
+                {
+                  "component": "Tabs",
+                  "style": "pill",
+                  "tabs": ["Text", "PDF"]
+                },
+                {
+                  "component": "Textarea",
+                  "placeholder": "Paste your content here...",
+                  "minHeight": 160,
+                  "note": "Larger on mobile to fill more viewport"
+                },
+                {
+                  "component": "text",
+                  "text": "0 / 2000 characters",
+                  "role": "caption",
+                  "align": "right"
+                },
+                {
+                  "component": "Button",
+                  "variant": "default",
+                  "size": "lg",
+                  "label": "Continue",
+                  "icon": "ArrowRight",
+                  "fullWidth": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Step 1 — PDF Tab (375×812)",
+          "width": 375, "height": 812,
+          "bg": "background",
+          "note": "Same header + step indicator, tabs switched to PDF, drop zone replaces textarea",
+          "dropZone": {
+            "height": 200,
+            "state": "default",
+            "content": { "icon": "FileText 40px", "primaryText": "Drop PDF here or tap to browse", "subText": "Max 10 MB · PDF only" }
+          }
+        },
+        {
+          "name": "Step 2 — Choose Template (375×812)",
+          "width": 375, "height": 812,
+          "bg": "background",
+          "layout": {
+            "topNav": { "height": 56, "content": "centered logo" },
+            "body": {
+              "padding": 16, "paddingBottom": 32,
+              "children": [
+                { "component": "WizardStepIndicator", "props": { "totalSteps": 2, "activeStep": 2 } },
+                { "component": "text", "text": "Choose a Template", "role": "heading-xl" },
+                { "component": "text", "text": "Select the style that best matches your content goal.", "role": "body-md", "color": "muted-foreground" },
+                {
+                  "component": "TemplateGrid",
+                  "columns": 1,
+                  "gap": 12,
+                  "templates": ["educational", "marketing", "entertainment", "storytelling", "product-demo"]
+                },
+                {
+                  "component": "ActionRow",
+                  "layout": "space-between",
+                  "children": [
+                    { "component": "Button", "variant": "ghost", "size": "md", "icon": "ArrowLeft", "label": "Back" },
+                    { "component": "Button", "variant": "default", "size": "md", "icon": "ArrowRight", "label": "Create Reel" }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "💻 Reel Wizard — Desktop",
+      "artboards": [
+        {
+          "name": "Step 1 — Add Context (1440×900)",
+          "width": 1440, "height": 900,
+          "bg": "background",
+          "layout": {
+            "topNav": {
+              "height": 56, "paddingH": 24,
+              "content": "centered logo"
+            },
+            "body": {
+              "maxWidth": 672,
+              "marginH": "auto",
+              "paddingV": 64,
+              "gap": 32,
+              "children": [
+                { "component": "WizardStepIndicator", "props": { "totalSteps": 2, "activeStep": 1 } },
+                {
+                  "component": "Card",
+                  "variant": "default",
+                  "padding": 32,
+                  "children": [
+                    { "component": "text", "text": "Add Your Content", "role": "heading-xl" },
+                    { "component": "text", "text": "Paste your script, notes, or article as source material.", "role": "body-md", "color": "muted-foreground" },
+                    { "component": "Tabs", "style": "pill", "tabs": ["Text", "PDF"] },
+                    { "component": "Textarea", "placeholder": "Paste your content here...", "minHeight": 120 },
+                    { "component": "text", "text": "0 / 2000 characters", "role": "caption", "align": "right" },
+                    { "component": "Button", "variant": "default", "size": "lg", "label": "Continue →", "align": "right" }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Step 2 — Choose Template (1440×900)",
+          "width": 1440, "height": 900,
+          "bg": "background",
+          "layout": {
+            "topNav": { "height": 56, "content": "centered logo" },
+            "body": {
+              "maxWidth": 672, "marginH": "auto", "paddingV": 64, "gap": 32,
+              "children": [
+                { "component": "WizardStepIndicator", "props": { "totalSteps": 2, "activeStep": 2 } },
+                { "component": "text", "text": "Choose a Template", "role": "heading-xl" },
+                {
+                  "component": "TemplateGrid",
+                  "columns": 3, "gap": 16,
+                  "templates": ["educational", "marketing", "entertainment", "storytelling", "product-demo"]
+                },
+                {
+                  "component": "ActionRow",
+                  "layout": "space-between",
+                  "children": [
+                    { "component": "Button", "variant": "ghost", "icon": "ArrowLeft", "label": "Back" },
+                    { "component": "Button", "variant": "default", "icon": "ArrowRight", "label": "Create Reel" }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "🎬 Reel Editor — Desktop",
+      "artboards": [
+        {
+          "name": "Editor — Idle (1440×900)",
+          "width": 1440, "height": 900,
+          "bg": "background",
+          "layout": {
+            "topNav": {
+              "component": "TopNav",
+              "variant": "editor",
+              "height": 56,
+              "leftContent": [
+                { "component": "Button", "variant": "ghost", "size": "icon", "icon": "ArrowLeft" },
+                { "component": "text", "text": "My First Reel", "role": "heading-lg", "maxWidth": 240 },
+                { "component": "Badge", "variant": "secondary", "label": "Educational" }
+              ],
+              "rightContent": [
+                { "component": "Button", "variant": "default", "size": "sm", "icon": "Sparkles", "label": "Generate" },
+                { "component": "Button", "variant": "outline", "size": "sm", "icon": "Download", "label": "Export" }
+              ]
+            },
+            "mainArea": {
+              "direction": "horizontal",
+              "height": "calc(100vh - 56px)",
+              "children": [
+                {
+                  "name": "SceneListPanel",
+                  "width": 288,
+                  "borderRight": true,
+                  "bg": "background",
+                  "children": [
+                    {
+                      "name": "ListHeader",
+                      "height": 48, "paddingH": 16,
+                      "borderBottom": true,
+                      "content": [
+                        { "component": "text", "text": "Scenes", "role": "heading-md" },
+                        { "component": "text", "text": "4 scenes", "role": "body-sm", "color": "muted-foreground" }
+                      ]
+                    },
+                    {
+                      "name": "SceneList",
+                      "flex": 1, "overflow": "scroll", "padding": 8, "gap": 4,
+                      "children": [
+                        { "component": "SceneCard", "state": "selected",  "sceneNumber": 1, "type": "hook",    "timeRange": "0:00–0:05" },
+                        { "component": "SceneCard", "state": "default",   "sceneNumber": 2, "type": "context", "timeRange": "0:05–0:20" },
+                        { "component": "SceneCard", "state": "default",   "sceneNumber": 3, "type": "value",   "timeRange": "0:20–0:45" },
+                        { "component": "SceneCard", "state": "default",   "sceneNumber": 4, "type": "cta",     "timeRange": "0:45–0:55" }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "PreviewCenter",
+                  "flex": 1, "bg": "muted/30",
+                  "display": "flex", "direction": "column",
+                  "alignItems": "center", "justifyContent": "center",
+                  "padding": 24,
+                  "children": [
+                    {
+                      "name": "PlayerContainer",
+                      "aspectRatio": "9/16",
+                      "maxHeight": "calc(100vh - 8rem)",
+                      "borderRadius": 14,
+                      "overflow": "hidden",
+                      "shadow": "lg",
+                      "bg": "gray.900",
+                      "note": "Remotion Player renders inside here — use a dark placeholder with 9:16 aspect ratio"
+                    },
+                    {
+                      "name": "PlayerControls",
+                      "marginTop": 12,
+                      "direction": "horizontal", "gap": 12,
+                      "children": [
+                        { "component": "Button", "variant": "ghost", "size": "icon", "icon": "SkipBack" },
+                        { "component": "Button", "variant": "default", "size": "icon", "icon": "Play" },
+                        { "component": "Button", "variant": "ghost", "size": "icon", "icon": "SkipForward" }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "floatingChatWidget": {
+              "component": "ChatEditorWidget",
+              "state": "collapsed",
+              "position": { "fixed": true, "bottom": 24, "right": 24 }
+            }
+          }
+        },
+        {
+          "name": "Editor — Generating (1440×900)",
+          "width": 1440, "height": 900,
+          "note": "Same layout as Idle. Preview center shows GenerationProgressPanel below a dimmed player.",
+          "changes": {
+            "topNav.generateButton": "loading state (spinner + Generating…)",
+            "previewCenter.addedBelow": {
+              "component": "GenerationProgressPanel",
+              "state": "generating",
+              "progress": 67,
+              "stepText": "Step 2 of 3: Generating scene assets",
+              "marginTop": 16,
+              "width": "100%", "maxWidth": 480
+            }
+          }
+        },
+        {
+          "name": "Editor — Chat Open (1440×900)",
+          "width": 1440, "height": 900,
+          "note": "Same layout as Idle. Chat widget is expanded (fixed, bottom-right).",
+          "changes": {
+            "floatingChatWidget.state": "expanded",
+            "chatContent": [
+              { "role": "assistant", "text": "I'm your reel editor. Describe any changes and I'll apply them." },
+              { "role": "user",      "text": "Make the hook more dramatic and punchy." },
+              { "role": "assistant", "text": "I've rewritten Scene 1. The hook now opens with a bold question: \"What if one video could 10× your reach?\"" }
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "📱 Reel Editor — Mobile",
+      "artboards": [
+        {
+          "name": "Editor — Default (375×812)",
+          "width": 375, "height": 812,
+          "bg": "background",
+          "layout": {
+            "topNav": {
+              "height": 56, "paddingH": 16,
+              "leftContent": [
+                { "component": "Button", "variant": "ghost", "size": "icon", "icon": "ArrowLeft" },
+                { "component": "text", "text": "My First Reel", "maxWidth": 120, "overflow": "truncate", "role": "heading-md" }
+              ],
+              "rightContent": [
+                { "component": "Button", "variant": "ghost", "size": "icon", "icon": "Menu", "note": "Opens scene drawer" },
+                { "component": "Button", "variant": "default", "size": "sm", "icon": "Sparkles", "label": "Generate" }
+              ],
+              "note": "Hide template badge and Export button on mobile top nav"
+            },
+            "body": {
+              "flex": 1,
+              "bg": "muted/30",
+              "display": "flex", "alignItems": "center", "justifyContent": "center",
+              "padding": 12,
+              "children": [
+                {
+                  "name": "PlayerContainer",
+                  "aspectRatio": "9/16",
+                  "width": "100%",
+                  "maxWidth": 270,
+                  "borderRadius": 14,
+                  "bg": "gray.900",
+                  "shadow": "lg"
+                }
+              ]
+            },
+            "bottomActionBar": {
+              "height": 64, "paddingH": 16,
+              "borderTop": true, "bg": "background/80", "backdropBlur": "8px",
+              "position": "fixed bottom=0",
+              "children": [
+                { "component": "Button", "variant": "ghost", "icon": "Layers", "label": "Scenes" },
+                { "component": "Button", "variant": "default", "icon": "Sparkles", "label": "Generate", "flex": 1 },
+                { "component": "Button", "variant": "outline", "icon": "Download", "label": "Export" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Editor — Scene Drawer Open (375×812)",
+          "width": 375, "height": 812,
+          "note": "Scene list appears as a bottom-up drawer (70vh). Overlay dims the preview behind it.",
+          "overlay": { "bg": "black/40", "zIndex": 30 },
+          "drawer": {
+            "position": "fixed bottom=0 left=0 right=0",
+            "height": "70vh",
+            "bg": "card",
+            "borderRadius": "18px 18px 0 0",
+            "shadow": "2xl",
+            "zIndex": 40,
+            "handle": { "width": 36, "height": 4, "bg": "border", "borderRadius": 9999, "marginH": "auto", "marginTop": 8 },
+            "content": [
+              { "component": "text", "text": "Scenes", "role": "heading-md", "padding": 16 },
+              { "component": "SceneList", "scenes": 4 }
+            ]
+          }
+        },
+        {
+          "name": "Editor — Chat Open (375×812)",
+          "width": 375, "height": 812,
+          "note": "Chat widget expands to a full-width bottom sheet (70vh). Collapsed trigger is at bottom-right above action bar.",
+          "bottomSheet": {
+            "position": "fixed inset-x=16 bottom=72",
+            "maxHeight": "60vh",
+            "bg": "card",
+            "border": "border",
+            "borderRadius": 14,
+            "shadow": "lg",
+            "component": "ChatEditorWidget",
+            "state": "expanded-mobile"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "🌙 Dark Mode Variants",
+      "description": "Key screens in dark mode — apply the 'dark' token set on top of 'light'.",
+      "artboards": [
+        {
+          "name": "Wizard Step 1 — Dark (1440×900)",
+          "note": "Apply dark token set. bg=gray.950, card bg slightly lighter. All semantic tokens auto-switch."
+        },
+        {
+          "name": "Editor Idle — Dark (1440×900)",
+          "note": "bg=gray.950, scene list panel bg=card (gray.800), preview bg=muted (gray.700). Player border: ring-1 white/10."
+        },
+        {
+          "name": "Editor Chat Open — Dark (375×812)",
+          "note": "Chat widget bg=card (gray.800), border=border (white/10), shadow=black/50."
+        }
+      ]
+    },
+
+    {
+      "name": "♿ Accessibility Annotations",
+      "description": "Focus order, ARIA roles, and keyboard navigation documentation for handoff.",
+      "sections": [
+        {
+          "name": "Wizard Step 1 — Focus Order",
+          "focusOrder": [
+            "1. Logo (skip to content link)",
+            "2. Text tab trigger",
+            "3. PDF tab trigger",
+            "4. Textarea (autofocus on mount)",
+            "5. Continue button"
+          ]
+        },
+        {
+          "name": "Editor — Focus Order (Desktop)",
+          "focusOrder": [
+            "1. Back button (TopNav)",
+            "2. Generate button",
+            "3. Export button",
+            "4. Scene cards (Tab through list)",
+            "5. Chat widget toggle button",
+            "6. Chat input (when widget open)",
+            "7. Chat send button"
+          ]
+        },
+        {
+          "name": "ARIA Roles Map",
+          "roles": {
+            "TopNav": "role=banner",
+            "SceneList": "role=list, aria-label='Reel scenes'",
+            "SceneCard": "role=listitem, aria-selected=true/false",
+            "ProgressBar": "role=progressbar, aria-valuenow={n}, aria-valuemin=0, aria-valuemax=100",
+            "ChatWidget": "role=complementary, aria-label='Reel editor chat'",
+            "TemplateCard": "role=radio (within role=radiogroup)",
+            "DropZone": "role=button, aria-label='Upload PDF', tabindex=0"
+          }
+        }
+      ]
+    }
+  ]
+}

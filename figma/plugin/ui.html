@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+      font-size: 13px;
+      background: #1a1a1a;
+      color: #f0f0f0;
+      padding: 16px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .section {
+      margin-bottom: 16px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: #252525;
+      border-radius: 6px;
+      border: 1px solid #333;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+
+    .option:hover {
+      border-color: #555;
+    }
+
+    .option input[type="checkbox"] {
+      accent-color: #a0a0a0;
+      cursor: pointer;
+    }
+
+    .option label {
+      cursor: pointer;
+      flex: 1;
+      color: #ddd;
+    }
+
+    .option .tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #333;
+      color: #888;
+    }
+
+    .divider {
+      height: 1px;
+      background: #2a2a2a;
+      margin: 16px 0;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-primary {
+      background: #f0f0f0;
+      color: #111;
+      margin-bottom: 8px;
+    }
+
+    .btn-primary:hover:not(:disabled) { opacity: 0.92; }
+
+    .btn-secondary {
+      background: transparent;
+      color: #888;
+      border: 1px solid #333;
+    }
+
+    .btn-secondary:hover:not(:disabled) { border-color: #555; color: #bbb; }
+
+    #log {
+      margin-top: 14px;
+      padding: 10px;
+      background: #111;
+      border-radius: 6px;
+      border: 1px solid #222;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      color: #666;
+      min-height: 60px;
+      max-height: 180px;
+      overflow-y: auto;
+      line-height: 1.6;
+      display: none;
+    }
+
+    #log.visible { display: block; }
+
+    .log-line { padding: 1px 0; }
+    .log-line.ok    { color: #4ade80; }
+    .log-line.info  { color: #93c5fd; }
+    .log-line.warn  { color: #fbbf24; }
+    .log-line.error { color: #f87171; }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 12px;
+    }
+
+    .progress-wrap.visible { display: block; }
+
+    .progress-bar-track {
+      height: 4px;
+      background: #2a2a2a;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #f0f0f0;
+      border-radius: 9999px;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-label {
+      font-size: 11px;
+      color: #666;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Design System Builder</h1>
+  <p class="subtitle">AI Reel Creator · Generates styles, components &amp; page frames in one click.</p>
+
+  <div class="section">
+    <div class="section-label">What to build</div>
+    <div class="option-group">
+      <div class="option">
+        <input type="checkbox" id="chk-styles" checked>
+        <label for="chk-styles">Color &amp; Text Styles</label>
+        <span class="tag">~40 styles</span>
+      </div>
+      <div class="option">
+        <input type="checkbox" id="chk-tokens" checked>
+        <label for="chk-tokens">Token Reference Page</label>
+        <span class="tag">swatches + type</span>
+      </div>
+      <div class="option">
+        <input type="checkbox" id="chk-components" checked>
+        <label for="chk-components">Component Frames</label>
+        <span class="tag">16 components</span>
+      </div>
+      <div class="option">
+        <input type="checkbox" id="chk-wizard" checked>
+        <label for="chk-wizard">Reel Wizard Screens</label>
+        <span class="tag">mobile + desktop</span>
+      </div>
+      <div class="option">
+        <input type="checkbox" id="chk-editor" checked>
+        <label for="chk-editor">Reel Editor Screens</label>
+        <span class="tag">mobile + desktop</span>
+      </div>
+      <div class="option">
+        <input type="checkbox" id="chk-dark" checked>
+        <label for="chk-dark">Dark Mode Variants</label>
+        <span class="tag">3 screens</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <button class="btn btn-primary" id="btn-run">⚡ Build Design System</button>
+  <button class="btn btn-secondary" id="btn-styles-only">Styles only (quick)</button>
+
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-label" id="progress-label">Starting…</div>
+  </div>
+
+  <div id="log"></div>
+
+  <script>
+    const log = document.getElementById('log');
+    const progressWrap = document.getElementById('progress-wrap');
+    const progressFill = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const btnRun = document.getElementById('btn-run');
+    const btnStylesOnly = document.getElementById('btn-styles-only');
+
+    function addLog(msg, type = 'info') {
+      log.classList.add('visible');
+      const line = document.createElement('div');
+      line.className = `log-line ${type}`;
+      line.textContent = msg;
+      log.appendChild(line);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function setProgress(pct, label) {
+      progressWrap.classList.add('visible');
+      progressFill.style.width = pct + '%';
+      progressLabel.textContent = label;
+    }
+
+    function setRunning(isRunning) {
+      btnRun.disabled = isRunning;
+      btnStylesOnly.disabled = isRunning;
+      btnRun.textContent = isRunning ? '⏳ Building…' : '⚡ Build Design System';
+    }
+
+    btnRun.addEventListener('click', () => {
+      const opts = {
+        styles:     document.getElementById('chk-styles').checked,
+        tokens:     document.getElementById('chk-tokens').checked,
+        components: document.getElementById('chk-components').checked,
+        wizard:     document.getElementById('chk-wizard').checked,
+        editor:     document.getElementById('chk-editor').checked,
+        dark:       document.getElementById('chk-dark').checked
+      };
+      log.innerHTML = '';
+      setRunning(true);
+      parent.postMessage({ pluginMessage: { type: 'build', opts } }, '*');
+    });
+
+    btnStylesOnly.addEventListener('click', () => {
+      log.innerHTML = '';
+      setRunning(true);
+      parent.postMessage({ pluginMessage: { type: 'styles-only' } }, '*');
+    });
+
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      if (msg.type === 'log')      addLog(msg.text, msg.level || 'info');
+      if (msg.type === 'progress') setProgress(msg.pct, msg.label);
+      if (msg.type === 'done') {
+        setRunning(false);
+        setProgress(100, '✓ Done!');
+        addLog('✓ Build complete!', 'ok');
+      }
+      if (msg.type === 'error') {
+        setRunning(false);
+        addLog('✗ ' + msg.text, 'error');
+      }
+    };
+  </script>
+</body>
+</html>
